@@ -1,0 +1,350 @@
+<!DOCTYPE html><html><head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="智能AI聊天助手，支持多模型对话、文档处理、代码分析等功能">
+  <meta name="keywords" content="AI,聊天,助手,人工智能,对话,文档处理,代码分析">
+  <meta name="author" content="Kelivo Team">
+  
+  <!-- PWA Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Kelivo">
+  <meta name="application-name" content="Kelivo">
+  <meta name="msapplication-TileColor" content="#1565C0">
+  <meta name="msapplication-config" content="browserconfig.xml">
+  <meta name="theme-color" content="#1565C0">
+  <meta name="color-scheme" content="light dark">
+  
+  <!-- iOS Icons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="icons/Icon-57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="icons/Icon-60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="icons/Icon-72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="icons/Icon-76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="icons/Icon-114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="icons/Icon-120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="icons/Icon-144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/Icon-152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/Icon-180.png">
+  
+  <!-- Standard Icons -->
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/Icon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/Icon-32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="icons/Icon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <title>Kelivo - AI聊天助手</title>
+  <link rel="manifest" href="manifest.json">
+  
+  
+  <!-- 优化加载策略 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="preload" href="flutter.js" as="script">
+  <link rel="preload" href="flutter_bootstrap.js" as="script">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  
+  <!-- 关键资源预加载 -->
+  <link rel="preload" href="icons/Icon-192.png" as="image">
+  <link rel="preload" href="manifest.json" as="fetch" crossorigin="anonymous">
+  
+  
+  
+  
+  <!-- 优化Splash屏样式，减少重绘 -->
+  <style id="splash-screen-style">
+    html {
+      height: 100%;
+      background-color: #FFFFFF;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      background-color: #FFFFFF;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .loading-text {
+      font-size: 14px;
+      color: #777;
+      margin-top: 20px;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html, body {
+        background-color: #000000;
+      }
+      .loading-text {
+        color: #ccc;
+      }
+    }
+  </style>
+  <script id="splash-screen-script">
+    function removeSplashFromWeb() {
+      const splash = document.getElementById("splash");
+      const branding = document.getElementById("splash-branding");
+      const style = document.getElementById("splash-screen-style");
+      
+      if (splash) splash.remove();
+      if (branding) branding.remove();
+      if (style) style.remove();
+      
+      document.body.style.background = "transparent";
+    }
+    
+    // 预加载Flutter引擎，提高启动速度
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.location.search.includes('performance=true')) {
+        console.log('Performance mode enabled');
+      }
+    });
+  </script>
+</head>
+<body>
+  <!-- 优化的加载界面 -->
+  <div id="splash" class="loading-container">
+    <picture>
+      <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x" media="(prefers-color-scheme: light)">
+      <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x" media="(prefers-color-scheme: dark)">
+      <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="" style="width: 120px; height: 120px;">
+    </picture>
+    <div id="splash-branding" class="loading-text">
+      加载中...
+    </div>
+  </div>
+  
+  <!-- 异步加载Flutter引擎 -->
+  <script src="flutter_bootstrap.js" async defer></script>
+
+  <!-- PWA Service Worker 优化注册 -->
+  <script>
+    // Service Worker 注册 - 优化版本
+    if ('serviceWorker' in navigator) {
+      // 延迟注册以优化启动性能
+      window.addEventListener('load', function() {
+        setTimeout(() => {
+          navigator.serviceWorker.register('/sw.js', {
+            scope: '/',
+            updateViaCache: 'none' // 禁用HTTP缓存以确保SW更新
+          })
+          .then(function(registration) {
+            console.log('ServiceWorker registered successfully:', registration.scope);
+            
+            // 检查更新
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // 新版本可用，后台静默更新
+                  newWorker.postMessage({ type: 'SKIP_WAITING' });
+                }
+              });
+            });
+          })
+          .catch(function(err) {
+            console.log('ServiceWorker registration failed:', err);
+          });
+        }, 1000); // 延迟1秒注册
+      });
+    }
+
+    // PWA 安装提示
+    let deferredPrompt;
+    let installButton = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('PWA install prompt triggered');
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // 显示安装按钮
+      showInstallButton();
+    });
+
+    function showInstallButton() {
+      // 创建安装提示UI
+      const installBanner = document.createElement('div');
+      installBanner.id = 'install-banner';
+      installBanner.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1565C0;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 14px;
+        max-width: 90vw;
+        animation: slideUp 0.3s ease-out;
+      `;
+      
+      installBanner.innerHTML = `
+        <span>📱 安装 Kelivo 到桌面</span>
+        <button id="install-btn" style="
+          background: white;
+          color: #1565C0;
+          border: none;
+          padding: 6px 12px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-weight: 500;
+        ">安装</button>
+        <button id="dismiss-btn" style="
+          background: transparent;
+          color: white;
+          border: 1px solid rgba(255,255,255,0.3);
+          padding: 6px 12px;
+          border-radius: 4px;
+          cursor: pointer;
+        ">稍后</button>
+      `;
+
+      // 添加动画样式
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideUp {
+          from { transform: translate(-50%, 100px); opacity: 0; }
+          to { transform: translate(-50%, 0); opacity: 1; }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      document.body.appendChild(installBanner);
+      
+      // 安装按钮事件
+      document.getElementById('install-btn').addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`User response to the install prompt: ${outcome}`);
+          deferredPrompt = null;
+          installBanner.remove();
+        }
+      });
+      
+      // 关闭按钮事件
+      document.getElementById('dismiss-btn').addEventListener('click', () => {
+        installBanner.remove();
+        // 记住用户选择，24小时内不再显示
+        localStorage.setItem('pwa-install-dismissed', Date.now().toString());
+      });
+      
+      // 检查是否在24小时内被关闭过
+      const dismissed = localStorage.getItem('pwa-install-dismissed');
+      if (dismissed && Date.now() - parseInt(dismissed) < 24 * 60 * 60 * 1000) {
+        installBanner.remove();
+      }
+    }
+
+    // 监听安装完成事件
+    window.addEventListener('appinstalled', (evt) => {
+      console.log('PWA was installed');
+      // 移除安装提示
+      const banner = document.getElementById('install-banner');
+      if (banner) banner.remove();
+      
+      // 可以在这里添加安装成功的提示
+      localStorage.setItem('pwa-installed', 'true');
+    });
+
+    // 网络状态监听
+    function updateOnlineStatus() {
+      const status = navigator.onLine ? 'online' : 'offline';
+      console.log('Network status:', status);
+      
+      // 发送网络状态到Flutter应用
+      if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
+        window.flutter_inappwebview.callHandler('networkStatus', status);
+      }
+      
+      // 显示离线提示
+      if (!navigator.onLine) {
+        showOfflineNotification();
+      } else {
+        hideOfflineNotification();
+      }
+    }
+
+    function showOfflineNotification() {
+      let offlineBar = document.getElementById('offline-bar');
+      if (!offlineBar) {
+        offlineBar = document.createElement('div');
+        offlineBar.id = 'offline-bar';
+        offlineBar.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          background: #FF9800;
+          color: white;
+          text-align: center;
+          padding: 8px;
+          z-index: 1001;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-size: 14px;
+        `;
+        offlineBar.textContent = '🔌 当前处于离线状态，部分功能可能受限';
+        document.body.appendChild(offlineBar);
+      }
+    }
+
+    function hideOfflineNotification() {
+      const offlineBar = document.getElementById('offline-bar');
+      if (offlineBar) {
+        offlineBar.remove();
+      }
+    }
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    
+    // 初始化网络状态
+    updateOnlineStatus();
+  </script>
+
+</body></html>
