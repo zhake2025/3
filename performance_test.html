@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelivo PWA 性能测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .metric {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #1565C0;
+        }
+        .good { border-left-color: #4CAF50; }
+        .warning { border-left-color: #FF9800; }
+        .error { border-left-color: #F44336; }
+        button {
+            background: #1565C0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0D47A1;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1565C0;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Kelivo PWA 性能测试</h1>
+    <p>这个页面用于验证 PWA 性能优化效果。</p>
+
+    <h2>📊 核心指标</h2>
+    <div id="metrics">
+        <div class="metric">
+            <strong>页面加载时间:</strong> <span id="loadTime">计算中...</span>
+        </div>
+        <div class="metric">
+            <strong>Service Worker 状态:</strong> <span id="swStatus">检查中...</span>
+        </div>
+        <div class="metric">
+            <strong>缓存状态:</strong> <span id="cacheStatus">检查中...</span>
+        </div>
+        <div class="metric">
+            <strong>网络状态:</strong> <span id="networkStatus">检查中...</span>
+        </div>
+    </div>
+
+    <h2>🛠 测试工具</h2>
+    <button onclick="testServiceWorker()">测试 Service Worker</button>
+    <button onclick="testCache()">测试缓存</button>
+    <button onclick="testPerformance()">性能测试</button>
+    <button onclick="clearCache()">清除缓存</button>
+
+    <h2>📈 测试结果</h2>
+    <div id="results">
+        <p>点击上方按钮开始测试...</p>
+    </div>
+
+    <h2>💡 优化建议</h2>
+    <div id="suggestions">
+        <p>测试完成后这里会显示优化建议...</p>
+    </div>
+
+    <script>
+        // 页面加载时间计算
+        window.addEventListener('load', function() {
+            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            document.getElementById('loadTime').textContent = loadTime + 'ms';
+            
+            // 根据加载时间添加样式
+            const metric = document.getElementById('loadTime').parentElement;
+            if (loadTime < 1500) {
+                metric.classList.add('good');
+            } else if (loadTime < 3000) {
+                metric.classList.add('warning');
+            } else {
+                metric.classList.add('error');
+            }
+        });
+
+        // 检查 Service Worker 状态
+        function checkServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistration().then(registration => {
+                    if (registration) {
+                        document.getElementById('swStatus').textContent = '已注册 ✅';
+                        document.getElementById('swStatus').parentElement.classList.add('good');
+                    } else {
+                        document.getElementById('swStatus').textContent = '未注册 ❌';
+                        document.getElementById('swStatus').parentElement.classList.add('error');
+                    }
+                });
+            } else {
+                document.getElementById('swStatus').textContent = '不支持 ❌';
+                document.getElementById('swStatus').parentElement.classList.add('error');
+            }
+        }
+
+        // 检查缓存状态
+        function checkCache() {
+            if ('caches' in window) {
+                caches.keys().then(cacheNames => {
+                    if (cacheNames.length > 0) {
+                        document.getElementById('cacheStatus').textContent = `${cacheNames.length} 个缓存 ✅`;
+                        document.getElementById('cacheStatus').parentElement.classList.add('good');
+                    } else {
+                        document.getElementById('cacheStatus').textContent = '无缓存 ⚠️';
+                        document.getElementById('cacheStatus').parentElement.classList.add('warning');
+                    }
+                });
+            } else {
+                document.getElementById('cacheStatus').textContent = '不支持 ❌';
+                document.getElementById('cacheStatus').parentElement.classList.add('error');
+            }
+        }
+
+        // 检查网络状态
+        function checkNetwork() {
+            const status = navigator.onLine ? '在线 ✅' : '离线 ⚠️';
+            document.getElementById('networkStatus').textContent = status;
+            const metric = document.getElementById('networkStatus').parentElement;
+            metric.classList.add(navigator.onLine ? 'good' : 'warning');
+        }
+
+        // 测试 Service Worker
+        function testServiceWorker() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="loading"></div> 测试 Service Worker...';
+            
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    let html = '<h3>Service Worker 测试结果:</h3>';
+                    if (registrations.length > 0) {
+                        registrations.forEach((reg, index) => {
+                            html += `<p>注册 ${index + 1}: ${reg.scope}</p>`;
+                            html += `<p>状态: ${reg.active ? '活跃' : '非活跃'}</p>`;
+                        });
+                    } else {
+                        html += '<p class="error">未找到 Service Worker 注册</p>';
+                    }
+                    results.innerHTML = html;
+                });
+            } else {
+                results.innerHTML = '<p class="error">浏览器不支持 Service Worker</p>';
+            }
+        }
+
+        // 测试缓存
+        function testCache() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="loading"></div> 测试缓存...';
+            
+            if ('caches' in window) {
+                caches.keys().then(cacheNames => {
+                    let html = '<h3>缓存测试结果:</h3>';
+                    if (cacheNames.length > 0) {
+                        html += `<p>找到 ${cacheNames.length} 个缓存:</p><ul>`;
+                        cacheNames.forEach(name => {
+                            html += `<li>${name}</li>`;
+                        });
+                        html += '</ul>';
+                        
+                        // 测试缓存内容
+                        Promise.all(cacheNames.map(name => 
+                            caches.open(name).then(cache => cache.keys())
+                        )).then(allKeys => {
+                            const totalKeys = allKeys.reduce((sum, keys) => sum + keys.length, 0);
+                            html += `<p>总共缓存了 ${totalKeys} 个资源</p>`;
+                            results.innerHTML = html;
+                        });
+                    } else {
+                        html += '<p class="warning">未找到缓存数据</p>';
+                        results.innerHTML = html;
+                    }
+                });
+            } else {
+                results.innerHTML = '<p class="error">浏览器不支持缓存 API</p>';
+            }
+        }
+
+        // 性能测试
+        function testPerformance() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="loading"></div> 运行性能测试...';
+            
+            const perf = performance.getEntriesByType('navigation')[0];
+            let html = '<h3>性能测试结果:</h3>';
+            
+            if (perf) {
+                html += `<p>DNS 查询: ${Math.round(perf.domainLookupEnd - perf.domainLookupStart)}ms</p>`;
+                html += `<p>TCP 连接: ${Math.round(perf.connectEnd - perf.connectStart)}ms</p>`;
+                html += `<p>请求响应: ${Math.round(perf.responseEnd - perf.requestStart)}ms</p>`;
+                html += `<p>DOM 解析: ${Math.round(perf.domContentLoadedEventEnd - perf.domLoading)}ms</p>`;
+                html += `<p>总加载时间: ${Math.round(perf.loadEventEnd - perf.navigationStart)}ms</p>`;
+                
+                // 评分
+                const totalTime = perf.loadEventEnd - perf.navigationStart;
+                if (totalTime < 1500) {
+                    html += '<p class="good">🎉 加载速度优秀!</p>';
+                } else if (totalTime < 3000) {
+                    html += '<p class="warning">⚠️ 加载速度一般</p>';
+                } else {
+                    html += '<p class="error">❌ 加载速度需要优化</p>';
+                }
+            } else {
+                html += '<p>无法获取详细性能数据</p>';
+            }
+            
+            results.innerHTML = html;
+        }
+
+        // 清除缓存
+        function clearCache() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="loading"></div> 清除缓存...';
+            
+            if ('caches' in window) {
+                caches.keys().then(cacheNames => {
+                    return Promise.all(cacheNames.map(name => caches.delete(name)));
+                }).then(() => {
+                    results.innerHTML = '<p class="good">✅ 缓存已清除</p>';
+                    checkCache(); // 重新检查缓存状态
+                });
+            } else {
+                results.innerHTML = '<p class="error">无法清除缓存</p>';
+            }
+        }
+
+        // 页面加载完成后运行检查
+        document.addEventListener('DOMContentLoaded', function() {
+            checkServiceWorker();
+            checkCache();
+            checkNetwork();
+        });
+
+        // 监听网络状态变化
+        window.addEventListener('online', checkNetwork);
+        window.addEventListener('offline', checkNetwork);
+    </script>
+</body>
+</html>

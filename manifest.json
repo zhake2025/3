@@ -1,0 +1,70 @@
+{
+    "name": "Kelivo - AI聊天助手",
+    "short_name": "Kelivo",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#1565C0",
+    "description": "智能AI聊天助手，支持多模型对话、文档处理、代码分析等功能",
+    "orientation": "any",
+    "prefer_related_applications": false,
+    "lang": "zh-CN",
+    "categories": ["productivity", "utilities"],
+    "screenshots": [
+        {
+            "src": "icons/screenshot-desktop.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "桌面端界面截图"
+        },
+        {
+            "src": "icons/screenshot-mobile.png", 
+            "sizes": "390x844",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "移动端界面截图"
+        }
+    ],
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "新建对话",
+            "short_name": "新对话",
+            "url": "/chat/new",
+            "icons": [{
+                "src": "icons/Icon-192.png",
+                "sizes": "192x192"
+            }]
+        }
+    ],
+    "launch_handler": {
+        "client_mode": "navigate-existing"
+    }
+}

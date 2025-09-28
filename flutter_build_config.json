@@ -1,0 +1,28 @@
+{
+  "build_mode": "release",
+  "optimization": {
+    "tree_shaking": true,
+    "minify": true,
+    "obfuscate": false,
+    "dart2js_optimization": "O4",
+    "split_debug_info": true,
+    "strip_debug_info": true
+  },
+  "web_specific": {
+    "web_renderer": "canvaskit",
+    "base_href": "/",
+    "pwa": true,
+    "service_worker_version": "1.0.13",
+    "csp": false
+  },
+  "assets": {
+    "compress_assets": true,
+    "optimize_images": true,
+    "bundle_skia_fonts": false
+  },
+  "performance": {
+    "lazy_load_imports": true,
+    "defer_loading": true,
+    "preload_critical_assets": true
+  }
+}
